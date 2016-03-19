@@ -37,7 +37,7 @@
 
 	requirables
 		.map((cname) => require(`./config/${cname}.js`)(atom.config.get(getConfigKey(cname))))
-		.forEach((addend) => isIterable(addend) && paths.push(...new DeepIterable(addend)))
+		.forEach((addend) => paths.push(...new DeepIterable([addend])))
 	;
 
 	requirables
