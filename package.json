@@ -1,7 +1,7 @@
 {
   "name": "require-anywhere",
   "main": "index.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "It's cool to use NodeJS modules in Atom DevTools",
   "keywords": [
     "nodejs",
