@@ -52,3 +52,5 @@ Include all paths that match `${left}/${right}`, where:
 ### Users can also add more paths by settings
 
 Just go to Settings (<kbd>Ctrl+,</kbd>) → Packages → require-anywhere, then do something
+
+You need to reload Atom to apply settings
