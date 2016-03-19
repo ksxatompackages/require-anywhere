@@ -41,8 +41,13 @@
 				.forEach((addend) => paths.push(...new DeepIterable([addend])))
 			;
 
+			var onConfigChanged = (change) => {
+				typeof change.oldValue === 'string' && atom.notifications.addInfo('You need to reload Atom to apply this change', {});
+				onConfigChanged = () => {};
+			};
+
 			requirables
-				.forEach((cname) => atom.config.onDidChange(getConfigKey(cname), (change) => typeof change.oldValue === 'string' && atom.notifications.addInfo('You need to reload Atom to apply this change', {})))
+				.forEach((cname) => atom.config.onDidChange(getConfigKey(cname), (change) => onConfigChanged(change)))
 			;
 
 			paths.push(...require(`./${process.platform === 'win32' ? 'windows' : 'unix'}.js`));
