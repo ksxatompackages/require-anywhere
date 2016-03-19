@@ -15,6 +15,8 @@ apm install require-anywhere
 
 #### In Windows
 
+ * See also: [windows.js](https://github.com/ksxatompackages/require-anywhere/blob/v1.0.0/windows.js)
+
 Include all paths that match `${left}\${mid}\${right}` or `${left}\${right}`, where:
 
  * `${left}` is windows environment variable, one of: `%UserProfile%`, `%AppData%`, `%ProgramFiles%`, `%ProgramFiles(x86)%`, `%ProgramFiles(x64)%`, `%ProgramW6432%`, `%HomeDrive%`
@@ -24,6 +26,8 @@ Include all paths that match `${left}\${mid}\${right}` or `${left}\${right}`, wh
  * `${right}` is one of: `atom-node-modules`, `atom-dev-node-modules`, `node_modules`, `.node_modules`, `.node_libraries`
 
 #### In Linux, Mac OS
+
+ * See also: [unix.js](https://github.com/ksxatompackages/require-anywhere/blob/v1.0.0/unix.js)
 
 Include all paths that match `${left}/${right}`, where:
 
