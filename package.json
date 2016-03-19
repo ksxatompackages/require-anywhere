@@ -5,6 +5,7 @@
   "description": "It's cool to use NodeJS modules in Atom DevTools",
   "keywords": [
     "nodejs",
+	"require",
     "atom-dev-tools",
     "external-node-modules",
     "require-external",
