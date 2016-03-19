@@ -24,8 +24,6 @@
 		require.withoutCache = global.requireWithoutCache = call;
 	})(global.require);
 
-	global.requireGlobal = require;
-
 	var paths = module.paths;
 
 	var pkgname = require('./package.json').name;
@@ -49,6 +47,7 @@
 
 	module.exports = {
 		'config': config,
+		'require': require,
 		'deactivate': () => atom.notifications.addInfo('You need to reload Atom to completely deactivate this package', {})
 	};
 
