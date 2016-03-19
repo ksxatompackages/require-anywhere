@@ -27,4 +27,9 @@
 	paths.push(...require(`./${process.platform === 'win32' ? 'windows' : 'unix'}.js`));
 	global.module.paths.push(...paths);
 
+	module.exports = {
+		'config': require('./config.json'),
+		'deactivate': () => atom.notifications.addInfo('You need to reload Atom to completely deactivate this package', {})
+	};
+
 })(module);
