@@ -22,7 +22,7 @@ module.exports = (script) => {
 				'env': env,
 				'require': require,
 				'product': product,
-				'times': times,
+				'times': product,
 				'__proto__': env
 			}
 		};
