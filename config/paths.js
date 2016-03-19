@@ -2,7 +2,7 @@
 module.exports = (script) => {
 	'use strict';
 
-	module.exports = script ? main() : [];
+	return script ? main() : [];
 
 	function main() {
 
