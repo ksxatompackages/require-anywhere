@@ -3,8 +3,22 @@
 
 ## Installation
 
+### Using Atom
+
+Just go to Settings (<kbd>Ctrl+,</kbd>) → Install, then search `require-anywhere`, and click Install
+
+### Using apm
+
 ```bash
 apm install require-anywhere
+```
+
+### Using git + apm
+
+```bash
+git clone https://github.com/ksxatompackages/require-anywhere
+apm link ./require-anywhere
+apm develop require-anywhere ./require-anywhere
 ```
 
 ## Features and Usage
