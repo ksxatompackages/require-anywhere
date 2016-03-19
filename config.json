@@ -2,19 +2,19 @@
 {
 	"paths": {
 		"title": "Custom Paths",
-		"description": "JavaScript expression which returns an array of string",
+		"description": "JavaScript expression which returns a sequence of string",
 		"type": "string",
 		"default": ""
 	},
 	"json": {
 		"title": "paths.json",
-		"description": "Path to an JSON file which represents paths (as an array of string)",
+		"description": "Path to an JSON file which represents paths (as a sequence of string)",
 		"type": "string",
 		"default": ""
 	},
 	"js": {
 		"title": "paths.js",
-		"description": "Path to a [node package](https://nodejs.org/api/modules.html) which returns (exports) an array of paths",
+		"description": "Path to a [node package](https://nodejs.org/api/modules.html) which returns (exports) a sequence of paths",
 		"type": "string",
 		"default": ""
 	}
