@@ -7,7 +7,12 @@ module.exports = (script) => {
 	function main() {
 
 		var vm = require('vm');
+		var functionizeClass = require('simple-function-utils/functionize-class');
+		var compose = require('simple-function-utils/compose');
+		var ProductIterable = require('x-iterable/product-iterable');
+
 		var env = process.env;
+		var product = functionizeClass(ProductIterable);
 
 		var context = {
 			'path': require('path'),
@@ -16,6 +21,8 @@ module.exports = (script) => {
 			'__proto__': {
 				'env': env,
 				'require': require,
+				'product': product,
+				'times': times,
 				'__proto__': env
 			}
 		};

@@ -1,7 +1,7 @@
 
 {
 	"paths": {
-		"title": "Custom Paths",
+		"title": "paths",
 		"description": "JavaScript expression which returns a sequence of string",
 		"type": "string",
 		"default": ""
