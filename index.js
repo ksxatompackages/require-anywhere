@@ -9,8 +9,11 @@
 	var resolvePath = require.resolve;
 
 	var requireWithoutCache = (require, path) => {
+		var old = Object.getOwnPropertyDescriptor(cache, path);
 		delete cache[path];
-		return require(path);
+		var result = require(path);
+		old && Object.defineProperty(cache, path, old);
+		return result;
 	}
 
 	global.requireWithoutCache = (name) => require.withoutCache(name);
