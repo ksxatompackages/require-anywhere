@@ -35,6 +35,6 @@ Include all paths that match `${left}/${right}`, where:
 
  * `${right}` is one of: `atom-node-modules`, `atom-dev-node-modules`, `node_modules`, `.node_modules`, `.node_libraries`
 
-### Users can also all more paths by settings
+### Users can also add more paths by settings
 
 Just go to Settings (<kbd>Ctrl+,</kbd>) → Packages → require-anywhere, then do something
