@@ -36,19 +36,17 @@
 
 			var getConfigKey = (cname) => `${pkgname}.${cname}`;
 
-			requirables
-				.map((cname) => require(`./config/${cname}.js`)(atom.config.get(getConfigKey(cname))))
-				.forEach((addend) => paths.push(...new DeepIterable([addend])))
-			;
+			for (let cname of requirables) {
+				let key = getConfigKey(cname);
+				let addend = require(`./config/${cname}.js`)(atom.config.get(key));
+				paths.push(...addend);
+				atom.config.onDidChange(key, (change) => onConfigChanged(change));
+			}
 
 			var onConfigChanged = (change) => {
 				typeof change.oldValue === 'string' && atom.notifications.addInfo('You need to reload Atom to apply this change', {});
 				onConfigChanged = () => {};
 			};
-
-			requirables
-				.forEach((cname) => atom.config.onDidChange(getConfigKey(cname), (change) => onConfigChanged(change)))
-			;
 
 			paths.push(...require(`./${process.platform === 'win32' ? 'windows' : 'unix'}.js`));
 			global.module.paths.push(...paths);
