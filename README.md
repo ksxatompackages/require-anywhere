@@ -13,12 +13,14 @@ Just go to Settings (<kbd>Ctrl+,</kbd>) → Install, then search `require-anywhe
 apm install require-anywhere
 ```
 
-### Using git + apm
+### Using git + apm + npm
 
 ```bash
 git clone https://github.com/ksxatompackages/require-anywhere
 apm link ./require-anywhere
 apm develop require-anywhere ./require-anywhere
+cd ./require-anywhere
+npm install
 ```
 
 ## Features and Usage
