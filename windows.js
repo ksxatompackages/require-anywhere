@@ -3,7 +3,7 @@
 	'use strict';
 
 	var join = require('path').join;
-	var ProductIterable = require('x-iterable/product-iterable');
+	var ProductIterable = require('./product-iterable.js');
 
 	var env = process.env;
 	var keys = [...Object.keys(env), ...Object.getOwnPropertyNames(env)];

@@ -4,9 +4,6 @@
 
 	var activate = () => {
 
-		var isIterable = require('x-iterable/utils/is-iterable');
-		var DeepIterable = require('x-iterable/deep-iterable');
-
 		var cache = require.cache;
 		var resolvePath = require.resolve;
 
