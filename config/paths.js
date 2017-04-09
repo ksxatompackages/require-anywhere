@@ -1,39 +1,34 @@
+module.exports = script => {
+  'use strict'
 
-module.exports = (script) => {
-	'use strict';
+  return script ? main() : []
 
-	return script ? main() : [];
+  function main () {
+    const vm = require('vm')
+    const functionizeClass = require('simple-function-utils/functionize-class')
+    const ProductIterable = require('x-iterable/product-iterable')
 
-	function main() {
+    const env = process.env
+    const product = functionizeClass(ProductIterable)
 
-		var vm = require('vm');
-		var functionizeClass = require('simple-function-utils/functionize-class');
-		var compose = require('simple-function-utils/compose');
-		var ProductIterable = require('x-iterable/product-iterable');
+    const context = {
+      'path': require('path'),
+      'xiter': require('x-iterable'),
+      'sfu': require('simple-function-utils'),
+      '__proto__': {
+        'env': env,
+        'require': require,
+        'product': product,
+        'times': product,
+        '__proto__': env
+      }
+    }
 
-		var env = process.env;
-		var product = functionizeClass(ProductIterable);
-
-		var context = {
-			'path': require('path'),
-			'xiter': require('x-iterable'),
-			'sfu': require('simple-function-utils'),
-			'__proto__': {
-				'env': env,
-				'require': require,
-				'product': product,
-				'times': product,
-				'__proto__': env
-			}
-		};
-
-		try {
-			return vm.runInNewContext(script, context);
-		} catch (error) {
-			var createErrorDetail = require('../utils/create-error-details.js');
-			atom.notifications.addError(`ERROR: ${error}`, createErrorDetail(error));
-		}
-
-	}
-
-};
+    try {
+      return vm.runInNewContext(script, context)
+    } catch (error) {
+      const createErrorDetail = require('../utils/create-error-details.js')
+      global.atom.notifications.addError(`ERROR: ${error}`, createErrorDetail(error))
+    }
+  }
+}

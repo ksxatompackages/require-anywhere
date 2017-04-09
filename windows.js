@@ -1,37 +1,33 @@
+'use strict'
 
-((module) => {
-	'use strict';
+const join = require('path').join
+const ProductIterable = require('./product-iterable.js')
 
-	var join = require('path').join;
-	var ProductIterable = require('./product-iterable.js');
+const env = process.env
+const keys = [...Object.keys(env), ...Object.getOwnPropertyNames(env)]
 
-	var env = process.env;
-	var keys = [...Object.keys(env), ...Object.getOwnPropertyNames(env)];
+const getEnv = vname =>
+  env[keys.find(name => name.toUpperCase() === vname)] || ''
 
-	var getEnv = (vname) =>
-		env[keys.find((name) => name.toUpperCase() === vname)] || '';
+const allLeftNames = [
+  'UserProfile', 'AppData',
+  'ProgramFiles', 'ProgramFiles(x86)',
+  'ProgramFiles(x64)', 'ProgramW6432',
+  'HomeDrive'
+].map(dir => getEnv(dir.toUpperCase()))
+  .filter(Boolean)
 
-	var allLeftNames = [
-		'UserProfile', 'AppData',
-		'ProgramFiles', 'ProgramFiles(x86)',
-		'ProgramFiles(x64)', 'ProgramW6432',
-		'HomeDrive'
-	].map((dir) => getEnv(dir.toUpperCase()))
-		.filter(Boolean);
+const allMidNames = [
+  '', 'nodejs',
+  'nodejs\\repl', 'npm'
+]
 
-	var allMidNames = [
-		'', 'nodejs',
-		'nodejs\\repl', 'npm'
-	];
+const allRightNames = [
+  'atom-node-modules', 'atom-dev-node-modules', 'node_modules',
+  '.node_modules', '.node_libraries'
+]
 
-	var allRightNames = [
-		'atom-node-modules', 'atom-dev-node-modules', 'node_modules',
-		'.node_modules', '.node_libraries'
-	];
+const allPaths = new ProductIterable(allLeftNames, allMidNames, allRightNames)
+  .map(path => join(...path))
 
-	var allPaths = new ProductIterable(allLeftNames, allMidNames, allRightNames)
-		.map((path) => join(...path));
-
-	module.exports = Object.freeze([...allPaths]);
-
-})(module);
+module.exports = Object.freeze([...allPaths])
