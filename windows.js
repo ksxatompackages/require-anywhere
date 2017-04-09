@@ -6,15 +6,15 @@ const ProductIterable = require('./product-iterable.js')
 const env = process.env
 const keys = [...Object.keys(env), ...Object.getOwnPropertyNames(env)]
 
-const getEnv = (vname) =>
-  env[keys.find((name) => name.toUpperCase() === vname)] || ''
+const getEnv = vname =>
+  env[keys.find(name => name.toUpperCase() === vname)] || ''
 
 const allLeftNames = [
   'UserProfile', 'AppData',
   'ProgramFiles', 'ProgramFiles(x86)',
   'ProgramFiles(x64)', 'ProgramW6432',
   'HomeDrive'
-].map((dir) => getEnv(dir.toUpperCase()))
+].map(dir => getEnv(dir.toUpperCase()))
   .filter(Boolean)
 
 const allMidNames = [
@@ -28,6 +28,6 @@ const allRightNames = [
 ]
 
 const allPaths = new ProductIterable(allLeftNames, allMidNames, allRightNames)
-  .map((path) => join(...path))
+  .map(path => join(...path))
 
 module.exports = Object.freeze([...allPaths])

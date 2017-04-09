@@ -14,13 +14,13 @@ const activate = () => {
     return result
   }
 
-  global.requireWithoutCache = (name) => require.withoutCache(name)
+  global.requireWithoutCache = name => require.withoutCache(name)
 
-  require.withoutCache = (name) =>
+  require.withoutCache = name =>
     requireWithoutCache(require, resolvePath(name));
 
-  ((require) => {
-    const call = (name) =>
+  (require => {
+    const call = name =>
       requireWithoutCache(require, resolvePath(name))
     require.withoutCache = global.requireWithoutCache = call
   })(global.require)
@@ -30,16 +30,16 @@ const activate = () => {
   const pkgname = require('./package.json').name
   const requirables = Object.getOwnPropertyNames(require('./config.json'))
 
-  const getConfigKey = (cname) => `${pkgname}.${cname}`
+  const getConfigKey = cname => `${pkgname}.${cname}`
 
   for (let cname of requirables) {
     let key = getConfigKey(cname)
     let addend = require(`./config/${cname}.js`)(atom.config.get(key))
     paths.push(...addend)
-    atom.config.onDidChange(key, (change) => onConfigChanged(change))
+    atom.config.onDidChange(key, change => onConfigChanged(change))
   }
 
-  let onConfigChanged = (change) => {
+  let onConfigChanged = change => {
     typeof change.oldValue === 'string' && atom.notifications.addInfo('You need to reload Atom to apply this change', {})
     onConfigChanged = () => {}
   }
