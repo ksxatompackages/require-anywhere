@@ -4,14 +4,14 @@ module.exports = script => {
   return script ? main() : []
 
   function main () {
-    var vm = require('vm')
-    var functionizeClass = require('simple-function-utils/functionize-class')
-    var ProductIterable = require('x-iterable/product-iterable')
+    const vm = require('vm')
+    const functionizeClass = require('simple-function-utils/functionize-class')
+    const ProductIterable = require('x-iterable/product-iterable')
 
-    var env = process.env
-    var product = functionizeClass(ProductIterable)
+    const env = process.env
+    const product = functionizeClass(ProductIterable)
 
-    var context = {
+    const context = {
       'path': require('path'),
       'xiter': require('x-iterable'),
       'sfu': require('simple-function-utils'),
@@ -27,7 +27,7 @@ module.exports = script => {
     try {
       return vm.runInNewContext(script, context)
     } catch (error) {
-      var createErrorDetail = require('../utils/create-error-details.js')
+      const createErrorDetail = require('../utils/create-error-details.js')
       global.atom.notifications.addError(`ERROR: ${error}`, createErrorDetail(error))
     }
   }

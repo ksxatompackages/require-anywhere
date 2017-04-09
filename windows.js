@@ -1,15 +1,15 @@
 'use strict'
 
-var join = require('path').join
-var ProductIterable = require('./product-iterable.js')
+const join = require('path').join
+const ProductIterable = require('./product-iterable.js')
 
-var env = process.env
-var keys = [...Object.keys(env), ...Object.getOwnPropertyNames(env)]
+const env = process.env
+const keys = [...Object.keys(env), ...Object.getOwnPropertyNames(env)]
 
-var getEnv = (vname) =>
+const getEnv = (vname) =>
   env[keys.find((name) => name.toUpperCase() === vname)] || ''
 
-var allLeftNames = [
+const allLeftNames = [
   'UserProfile', 'AppData',
   'ProgramFiles', 'ProgramFiles(x86)',
   'ProgramFiles(x64)', 'ProgramW6432',
@@ -17,17 +17,17 @@ var allLeftNames = [
 ].map((dir) => getEnv(dir.toUpperCase()))
   .filter(Boolean)
 
-var allMidNames = [
+const allMidNames = [
   '', 'nodejs',
   'nodejs\\repl', 'npm'
 ]
 
-var allRightNames = [
+const allRightNames = [
   'atom-node-modules', 'atom-dev-node-modules', 'node_modules',
   '.node_modules', '.node_libraries'
 ]
 
-var allPaths = new ProductIterable(allLeftNames, allMidNames, allRightNames)
+const allPaths = new ProductIterable(allLeftNames, allMidNames, allRightNames)
   .map((path) => join(...path))
 
 module.exports = Object.freeze([...allPaths])

@@ -4,12 +4,12 @@ module.exports = json => {
   return json ? main() : []
 
   function main () {
-    var readFileSync = require('fs').readFileSync
+    const readFileSync = require('fs').readFileSync
 
     try {
       return JSON.parse(readFileSync(json, {encoding: 'utf8'}))
     } catch (error) {
-      var createErrorDetail = require('../utils/create-error-details.js')
+      const createErrorDetail = require('../utils/create-error-details.js')
       global.atom.notifications.addError(`ERROR: ${error}`, createErrorDetail(error))
     }
   }
