@@ -1,5 +1,5 @@
 
-module.exports = (script) => {
+module.exports = script => {
   'use strict'
 
   return script ? main() : []

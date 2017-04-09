@@ -1,5 +1,5 @@
 
-((module) => {
+(module => {
   'use strict'
 
   var {atom} = global

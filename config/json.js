@@ -1,5 +1,5 @@
 
-module.exports = (json) => {
+module.exports = json => {
   'use strict'
 
   return json ? main() : []
