@@ -2,6 +2,8 @@
 ((module) => {
   'use strict'
 
+  var {atom} = global
+
   var activate = () => {
     var cache = require.cache
     var resolvePath = require.resolve

@@ -7,7 +7,6 @@ module.exports = (script) => {
   function main () {
     var vm = require('vm')
     var functionizeClass = require('simple-function-utils/functionize-class')
-    var compose = require('simple-function-utils/compose')
     var ProductIterable = require('x-iterable/product-iterable')
 
     var env = process.env
@@ -30,7 +29,7 @@ module.exports = (script) => {
       return vm.runInNewContext(script, context)
     } catch (error) {
       var createErrorDetail = require('../utils/create-error-details.js')
-      atom.notifications.addError(`ERROR: ${error}`, createErrorDetail(error))
+      global.atom.notifications.addError(`ERROR: ${error}`, createErrorDetail(error))
     }
   }
 }

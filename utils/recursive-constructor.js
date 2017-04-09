@@ -2,7 +2,7 @@
 ((module) => {
   'use strict'
 
-  var _key_iterator = Symbol.iterator
+  var iterator = Symbol.iterator
 
   module.exports = (object, type, last, iterable, ...rest) => {
     if (!rest.length) {
@@ -16,7 +16,7 @@
   }
 
   function LastItem (iterable, make) {
-    this[_key_iterator] = function * () {
+    this[iterator] = function * () {
       for (let element of iterable) {
         yield make(element)
       }

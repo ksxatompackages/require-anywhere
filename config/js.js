@@ -9,7 +9,7 @@ module.exports = (js) => {
       return require(js)
     } catch (error) {
       var createErrorDetail = require('../utils/create-error-details.js')
-      atom.notifications.addError(`ERROR: ${error}`, createErrorDetail(error))
+      global.atom.notifications.addError(`ERROR: ${error}`, createErrorDetail(error))
     }
   }
 }

@@ -5,8 +5,6 @@
   var bind = require('./utils/bind-function.js')
   var Root = require('./utils/root-class.js')
 
-  var _key_iterator = Symbol.iterator
-
   var createClassFromSuper = (Super) => class extends Super {}
 
   var _getfunc = (fn, ...fnlist) =>
@@ -47,7 +45,7 @@
       }
 
       runthrough () {
-        for (let gen = this[_key_iterator](); !gen.next().done;);
+        for (let gen = this[Symbol.iterator](); !gen.next().done;);
       }
 
       forEach (callback) {
@@ -189,7 +187,7 @@
 		createClass(class extends createClass.fromGenerator.Root {
   constructor (...args) {
     super()
-    this[_key_iterator] = (...rest) => gen.call(this, ...args, ...rest)
+    this[Symbol.iterator] = (...rest) => gen.call(this, ...args, ...rest)
   }
 		}, ...args)
 
@@ -202,7 +200,7 @@
   createClass.AssignIterator = createClass(class extends Root {
     constructor (iterate) {
       super()
-      this[_key_iterator] = iterate
+      this[Symbol.iterator] = iterate
     }
 	})
 })(module)
