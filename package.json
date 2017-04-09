@@ -16,12 +16,12 @@
   "repository": "https://github.com/ksxatompackages/require-anywhere",
   "license": "MIT",
   "engines": {
-    "atom": ">=1.2.0 <2.0.0",
-    "node": ">= 5.0.0"
+    "atom": "^1.15.0",
+    "node": "^6.0.0"
   },
   "dependencies": {
-    "x-iterable": ">=2.4.5 <3.0.0",
-    "simple-function-utils": ">= 2.3.0"
+    "x-iterable": "^6.0.0",
+    "simple-function-utils": "^2.3.0"
   },
   "devDependencies": {
     "standard": "^10.0.1"

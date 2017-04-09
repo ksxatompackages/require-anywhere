@@ -9,7 +9,7 @@
   var keys = [...Object.keys(env), ...Object.getOwnPropertyNames(env)]
 
   var getEnv = (vname) =>
-		env[keys.find((name) => name.toUpperCase() === vname)] || ''
+    env[keys.find((name) => name.toUpperCase() === vname)] || ''
 
   var allLeftNames = [
     'UserProfile', 'AppData',
@@ -17,7 +17,7 @@
     'ProgramFiles(x64)', 'ProgramW6432',
     'HomeDrive'
   ].map((dir) => getEnv(dir.toUpperCase()))
-		.filter(Boolean)
+    .filter(Boolean)
 
   var allMidNames = [
     '', 'nodejs',
@@ -30,7 +30,7 @@
   ]
 
   var allPaths = new ProductIterable(allLeftNames, allMidNames, allRightNames)
-		.map((path) => join(...path))
+    .map((path) => join(...path))
 
   module.exports = Object.freeze([...allPaths])
 })(module)
