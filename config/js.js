@@ -1,4 +1,3 @@
-
 module.exports = js => {
   'use strict'
 

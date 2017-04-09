@@ -1,4 +1,3 @@
-
 module.exports = error => {
   'use strict'
   if (error) {
