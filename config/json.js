@@ -1,20 +1,17 @@
 
 module.exports = (json) => {
-	'use strict';
+  'use strict'
 
-	return json ? main() : [];
+  return json ? main() : []
 
-	function main() {
+  function main () {
+    var readFileSync = require('fs').readFileSync
 
-		var readFileSync = require('fs').readFileSync;
-
-		try {
-			return JSON.parse(readFileSync(json, {encoding: 'utf8'}));
-		} catch (error) {
-			var createErrorDetail = require('../utils/create-error-details.js');
-			atom.notifications.addError(`ERROR: ${error}`, createErrorDetail(error));
-		}
-
-	}
-
-};
+    try {
+      return JSON.parse(readFileSync(json, {encoding: 'utf8'}))
+    } catch (error) {
+      var createErrorDetail = require('../utils/create-error-details.js')
+      atom.notifications.addError(`ERROR: ${error}`, createErrorDetail(error))
+    }
+  }
+}

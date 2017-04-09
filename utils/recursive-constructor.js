@@ -1,28 +1,25 @@
 
 ((module) => {
-	'use strict';
+  'use strict'
 
-	var _key_iterator = Symbol.iterator;
+  var _key_iterator = Symbol.iterator
 
-	module.exports = (object, type, last, iterable, ...rest) => {
+  module.exports = (object, type, last, iterable, ...rest) => {
+    if (!rest.length) {
+      return new LastItem(iterable, last)
+    }
 
-		if (!rest.length) {
-			return new LastItem(iterable, last);
-		}
+    object.first = iterable
+    object.second = new type(...rest)
 
-		object.first = iterable;
-		object.second = new type(...rest);
+    return object
+  }
 
-		return object;
-
-	};
-
-	function LastItem(iterable, make) {
-		this[_key_iterator] = function * () {
-			for (let element of iterable) {
-				yield make(element);
-			}
-		};
-	}
-
-})(module);
+  function LastItem (iterable, make) {
+    this[_key_iterator] = function * () {
+      for (let element of iterable) {
+        yield make(element)
+      }
+    }
+  }
+})(module)

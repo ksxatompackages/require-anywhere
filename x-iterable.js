@@ -1,216 +1,208 @@
 
 ((module) => {
-	'use strict';
+  'use strict'
 
-	var bind = require('./utils/bind-function.js');
-	var Root = require('./utils/root-class.js');
+  var bind = require('./utils/bind-function.js')
+  var Root = require('./utils/root-class.js')
 
-	var _key_iterator = Symbol.iterator;
+  var _key_iterator = Symbol.iterator
 
-    var createClassFromSuper = (Super) => class extends Super {};
+  var createClassFromSuper = (Super) => class extends Super {}
 
-    var _getfunc = (fn, ...fnlist) =>
-        typeof fn === 'function' ? fn : _getfunc(...fnlist);
+  var _getfunc = (fn, ...fnlist) =>
+        typeof fn === 'function' ? fn : _getfunc(...fnlist)
 
-	module.exports = createClass;
+  module.exports = createClass
 
-	function createClass(Super, ...args) {
+  function createClass (Super, ...args) {
+    class XIterable extends (typeof Super === 'function' ? Super : createClass.default) {
+      * transformGenerator (callback) {
+        for (let element of this) {
+          yield callback(element, this)
+        }
+      }
 
-		class XIterable extends (typeof Super === 'function' ? Super : createClass.default) {
+      transformOnce (callback) {
+        return new createClass.Yield(this.transformGenerator(callback))
+      }
 
-			* transformGenerator(callback) {
-				for (let element of this) {
-					yield callback(element, this);
-				}
-			}
+      transform (callback) {
+        return new createClass.AssignIterator(() => this.transformGenerator(callback))
+      }
 
-			transformOnce(callback) {
-				return new createClass.Yield(this.transformGenerator(callback));
-			}
+      * filterGenerator (callback) {
+        for (let element of this) {
+          if (callback(element, this)) {
+            yield element
+          }
+        }
+      }
 
-			transform(callback) {
-				return new createClass.AssignIterator(() => this.transformGenerator(callback));
-			}
+      filterOnceIterable (callback) {
+        return new createClass.Yield(this.filterGenerator(callback))
+      }
 
-			* filterGenerator(callback) {
-				for (let element of this) {
-					if (callback(element, this)) {
-						yield element;
-					}
-				}
-			}
+      filterIterable (callback) {
+        return new createClass.AssignIterator(() => this.filterGenerator(callback))
+      }
 
-			filterOnceIterable(callback) {
-				return new createClass.Yield(this.filterGenerator(callback));
-			}
+      runthrough () {
+        for (let gen = this[_key_iterator](); !gen.next().done;);
+      }
 
-			filterIterable(callback) {
-				return new createClass.AssignIterator(() => this.filterGenerator(callback));
-			}
+      forEach (callback) {
+        for (let element of this) {
+          callback(element, this)
+        }
+      }
 
-			runthrough() {
-				for (let gen = this[_key_iterator](); !gen.next().done; );
-			}
+      map (callback) {
+        return this.Array.from(this.transformOnce(callback))
+      }
 
-			forEach(callback) {
-				for (let element of this) {
-					callback(element, this);
-				}
-			}
+      some (callback) {
+        for (let element of this) {
+          if (callback(element, this)) {
+            return true
+          }
+        }
+        return false
+      }
 
-			map(callback) {
-				return this.Array.from(this.transformOnce(callback));
-			}
+      every (callback) {
+        return !this.every((element) => !callback(element, this))
+      }
 
-			some(callback) {
-				for (let element of this) {
-					if (callback(element, this)) {
-						return true;
-					}
-				}
-				return false;
-			}
+      filter (callback) {
+        return this.Array.from(this.filterIterable(callback))
+      }
 
-			every(callback) {
-				return !this.every((element) => !callback(element, this));
-			}
+      reduce (callback, init) {
+        this.forEach((element) => { init = callback(init, element, this) })
+        return init
+      }
 
-			filter(callback) {
-				return this.Array.from(this.filterIterable(callback));
-			}
+      spread (callback) {
+        if (typeof callback !== 'function') {
+          callback = this.spread.DEFAULT_CALLBACK
+        }
+        var Result = this.Array
+        return this.reduce((prev, now) => new Result(...prev, ...callback(now, this)), new Result())
+      }
 
-			reduce(callback, init) {
-				this.forEach((element) => {init = callback(init, element, this)});
-				return init;
-			}
+      get sumAsNum () {
+        return this.reduce((prev, now) => prev + Number(now), 0)
+      }
 
-			spread(callback) {
-				if (typeof callback !== 'function') {
-					callback = this.spread.DEFAULT_CALLBACK;
-				}
-				var Result = this.Array;
-				return this.reduce((prev, now) => new Result(...prev, ...callback(now, this)), new Result());
-			}
+      get productAsNum () {
+        return this.reduce((prev, now) => prev * Number(now), 1)
+      }
 
-			get sumAsNum() {
-				return this.reduce((prev, now) => prev + Number(now), 0);
-			}
+      get sumAsStr () {
+        return this.reduce((prev, now) => prev + String(now), '')
+      }
 
-			get productAsNum() {
-				return this.reduce((prev, now) => prev * Number(now), 1);
-			}
+      get sumAsReservedStr () {
+        return this.reduce((prev, now) => String(now) + prev, '')
+      }
 
-			get sumAsStr() {
-				return this.reduce((prev, now) => prev + String(now), '');
-			}
+      most (callback, init) {
+        for (let element of this) {
+          if (callback(element, init, this)) {
+            init = element
+          }
+        }
+        return init
+      }
 
-			get sumAsReservedStr() {
-				return this.reduce((prev, now) => String(now) + prev, '');
-			}
+      get min () {
+        return this.most((challenger, champion) => challenger < champion, +Infinity)
+      }
 
-			most(callback, init) {
-				for (let element of this) {
-					if (callback(element, init, this)) {
-						init = element;
-					}
-				}
-				return init;
-			}
+      get max () {
+        return this.most((challenger, champion) => challenger > champion, -Infinity)
+      }
 
-			get min() {
-				return this.most((challenger, champion) => challenger < champion, +Infinity);
-			}
+      toArray () {
+        return this.Array.from(this)
+      }
 
-			get max() {
-				return this.most((challenger, champion) => challenger > champion, -Infinity);
-			}
+      find (callback) {
+        for (let element of this) {
+          if (callback(element, this)) {
+            return element
+          }
+        }
+      }
 
-			toArray() {
-				return this.Array.from(this);
-			}
-
-			find(callback) {
-				for (let element of this) {
-					if (callback(element, this)) {
-						return element;
-					}
-				}
-			}
-
-			search(callback) {
-				for (let element of this) {
-					if (callback(element, this)) {
-						return new this.search.Result(element, this);
-					}
-				}
-			}
-
+      search (callback) {
+        for (let element of this) {
+          if (callback(element, this)) {
+            return new this.search.Result(element, this)
+          }
+        }
+      }
 		}
 
-		((proto) => {
+    ((proto) => {
+      proto.Array = Array
 
-			proto.Array = Array;
-
-			proto.search.Result = class extends Root {
-				constructor(value, object) {
-					super();
-					this.value = value;
-					this.object = object;
-				}
-			};
-
-			proto.spread.ITERABLES = (element, self) => new self.Array(...element);
-			proto.spread.DEFAULT_CALLBACK = proto.spread.ITERABLES;
-
-			if (proto.has === undefined) {
-				Object.assign(proto, {
-					has(element, equal) {
-						return this.some(bind(_getfunc(equal, this.has.DEFAULT_EQUAL), element));
-					}
-				});
-				proto.has.DEFAULT_EQUAL = Object.is;
+      proto.search.Result = class extends Root {
+        constructor (value, object) {
+          super()
+          this.value = value
+          this.object = object
+        }
 			}
 
-			var superproto = Object.getPrototypeOf(proto);
+      proto.spread.ITERABLES = (element, self) => new self.Array(...element)
+      proto.spread.DEFAULT_CALLBACK = proto.spread.ITERABLES
 
-			makeMethodExists('join', function (...args) {
-				return this.toArray().join(...args);
-			});
+      if (proto.has === undefined) {
+        Object.assign(proto, {
+          has (element, equal) {
+            return this.some(bind(_getfunc(equal, this.has.DEFAULT_EQUAL), element))
+          }
+        })
+        proto.has.DEFAULT_EQUAL = Object.is
+      }
 
-			function makeMethodExists(fname, func) {
-				if (typeof superproto[fname] !== 'function') {
-					proto[fname] = func;
-				}
-			}
+      var superproto = Object.getPrototypeOf(proto)
 
-		})(XIterable.prototype);
+      makeMethodExists('join', function (...args) {
+        return this.toArray().join(...args)
+      })
 
-		return createClassFromSuper(XIterable, ...args);
+      function makeMethodExists (fname, func) {
+        if (typeof superproto[fname] !== 'function') {
+          proto[fname] = func
+        }
+      }
+    })(XIterable.prototype)
 
-	}
+    return createClassFromSuper(XIterable, ...args)
+  }
 
-	createClass.default = Root.IterableBased;
+  createClass.default = Root.IterableBased
 
-	createClass.fromGenerator = (gen, ...args) =>
+  createClass.fromGenerator = (gen, ...args) =>
 		createClass(class extends createClass.fromGenerator.Root {
-			constructor(...args) {
-				super();
-				this[_key_iterator] = (...rest) => gen.call(this, ...args, ...rest);
-			}
-		}, ...args);
+  constructor (...args) {
+    super()
+    this[_key_iterator] = (...rest) => gen.call(this, ...args, ...rest)
+  }
+		}, ...args)
 
+  createClass.fromGenerator.Root = createClassFromSuper(Root)
 
-	createClass.fromGenerator.Root = createClassFromSuper(Root);
+  createClass.Yield = createClass.fromGenerator(function * (base) {
+    yield * base
+  })
 
-	createClass.Yield = createClass.fromGenerator(function * (base) {
-		yield * base;
-	});
-
-	createClass.AssignIterator = createClass(class extends Root {
-		constructor(iterate) {
-			super();
-			this[_key_iterator] = iterate;
-		}
-	});
-
-})(module);
+  createClass.AssignIterator = createClass(class extends Root {
+    constructor (iterate) {
+      super()
+      this[_key_iterator] = iterate
+    }
+	})
+})(module)
