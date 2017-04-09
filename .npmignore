@@ -4,3 +4,5 @@ out
 test
 quick-test
 *.tern-project*
+*.gitignore
+*.editorconfig
