@@ -3,3 +3,5 @@ node_modules
 out
 quick-test/*
 !quick-test/*.md
+*.tern-project
+*.tern-project.json
