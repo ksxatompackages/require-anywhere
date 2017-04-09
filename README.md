@@ -31,7 +31,7 @@ npm install
 
 #### In Windows
 
- * See also: [windows.js](https://github.com/ksxatompackages/require-anywhere/blob/v1.0.0/windows.js)
+ * See also: [windows.js](https://github.com/ksxatompackages/require-anywhere/blob/v2.0.3/windows.js)
 
 Include all paths that match `${left}\${mid}\${right}` or `${left}\${right}`, where:
 
@@ -43,7 +43,7 @@ Include all paths that match `${left}\${mid}\${right}` or `${left}\${right}`, wh
 
 #### In Linux, Mac OS
 
- * See also: [unix.js](https://github.com/ksxatompackages/require-anywhere/blob/v1.0.0/unix.js)
+ * See also: [unix.js](https://github.com/ksxatompackages/require-anywhere/blob/v2.0.3/unix.js)
 
 Include all paths that match `${left}/${right}`, where:
 
