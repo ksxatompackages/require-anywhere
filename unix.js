@@ -3,7 +3,7 @@
   'use strict'
 
   var join = require('path').join
-  var ProductIterable = require('./product-iterable.js')
+  var ProductIterable = require('x-iterable/product-iterable')
 
   var allPaths = new ProductIterable(
 		['~', '~/repl', '/home', '/home/repl', '/usr/share', '/', '/nodejs', '/node'],
