@@ -19,11 +19,11 @@
     global.requireWithoutCache = (name) => require.withoutCache(name)
 
     require.withoutCache = (name) =>
-			requireWithoutCache(require, resolvePath(name));
+      requireWithoutCache(require, resolvePath(name));
 
     ((require) => {
       var call = (name) =>
-				requireWithoutCache(require, resolvePath(name))
+        requireWithoutCache(require, resolvePath(name))
       require.withoutCache = global.requireWithoutCache = call
     })(global.require)
 
