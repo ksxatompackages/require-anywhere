@@ -1,7 +1,7 @@
 'use strict'
 
 const join = require('path').join
-const ProductIterable = require('./product-iterable.js')
+const ProductIterable = require('product-iterable')
 
 const env = process.env
 const keys = [...Object.keys(env), ...Object.getOwnPropertyNames(env)]
